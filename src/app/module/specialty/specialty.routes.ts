@@ -3,8 +3,11 @@ import express from 'express'
 
 const router = express.Router()
 
-router.post('/', SpecialtyController.createSpecialty)
-router.get('/', SpecialtyController.getAllSpecialties)
-router.delete('/:id', SpecialtyController.deleteSpecialty)
+router
+	.post('/', SpecialtyController.createSpecialty)
+	.get('/', SpecialtyController.getAllSpecialties)
+	.get('/:id', SpecialtyController.getSingleSpecialty)
+	.patch('/:id', SpecialtyController.updateSpecialty)
+	.delete('/:id', SpecialtyController.deleteSpecialty)
 
 export const SpecialtyRoutes = router

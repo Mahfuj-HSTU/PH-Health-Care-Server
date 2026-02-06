@@ -13,6 +13,28 @@ const getAllSpecialties = async (): Promise<Specialty[]> => {
 	return specialties
 }
 
+const updateSpecialty = async (
+	id: string,
+	payload: Specialty
+): Promise<Specialty> => {
+	const specialty = await prisma.specialty.update({
+		where: {
+			id
+		},
+		data: payload
+	})
+	return specialty
+}
+
+const getSingleSpecialty = async (id: string): Promise<Specialty | null> => {
+	const specialty = await prisma.specialty.findUniqueOrThrow({
+		where: {
+			id
+		}
+	})
+	return specialty
+}
+
 const deleteSpecialty = async (id: string): Promise<Specialty> => {
 	const specialty = await prisma.specialty.delete({
 		where: {
@@ -25,5 +47,7 @@ const deleteSpecialty = async (id: string): Promise<Specialty> => {
 export const SpecialtyService = {
 	createSpecialty,
 	getAllSpecialties,
-	deleteSpecialty
+	deleteSpecialty,
+	updateSpecialty,
+	getSingleSpecialty
 }
