@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { SpecialtyService } from './specialty.services'
-import catchAsync from '../../lib/catchAsync'
+import catchAsync from '../../helper/catchAsync'
 
 const createSpecialty = catchAsync(async (req: Request, res: Response) => {
 	const result = await SpecialtyService.createSpecialty(req.body)
