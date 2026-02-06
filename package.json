@@ -7,7 +7,7 @@
 		"start": "node dist/server.js",
 		"build": "tsc",
 		"dev": "tsx watch src/server.ts",
-		"lint": "eslint ./src",
+		"lint": "eslint ./src/*.ts",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"repository": {
@@ -17,7 +17,7 @@
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
-	"type": "commonjs",
+	"type": "module",
 	"bugs": {
 		"url": "https://github.com/Mahfuj-HSTU/PH-Health-Care/issues"
 	},
@@ -32,7 +32,7 @@
 	"dependencies": {
 		"@prisma/adapter-pg": "^7.3.0",
 		"@prisma/client": "^7.3.0",
-		"dotenv": "^17.2.3",
+		"dotenv": "^17.2.4",
 		"express": "^5.2.1",
 		"pg": "^8.18.0",
 		"tsx": "^4.21.0"
