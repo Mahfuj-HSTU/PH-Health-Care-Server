@@ -3,12 +3,12 @@
 		"module": "ESNext",
 		"moduleResolution": "bundler",
 		"target": "ES2023",
-		"rootDir": "./src",
+		"rootDir": "./",
 		"outDir": "./dist",
 		"strict": true,
 		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true
 	},
-	"include": ["src"]
+	"include": ["src", "generated/prisma/client"]
 }
