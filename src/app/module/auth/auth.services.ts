@@ -6,7 +6,7 @@ import {
 import { auth } from '../../lib/auth'
 import { prisma } from '../../lib/prisma'
 
-const registerPatient = async (payload: User) => {
+const registerPatient = async (payload: User & { password: string }) => {
 	const { name, email, password } = payload
 	const data = await auth.api.signUpEmail({
 		body: {
@@ -21,22 +21,20 @@ const registerPatient = async (payload: User) => {
 	if (!data.user) {
 		throw new Error('Failed to Register')
 	}
-	// const patient = await prisma.$transaction(async(tx)=>{
-	//   const patient = await tx.patient.create({
-	//     data: {
-	//       name,
-	//       email,
-	//       password,
-	//       needPasswordChange: false,
-	//       role: Role.PATIENT
-	//     }
-	//   })
-	//   return patient
-	// })
-	return data
+	const patient = await prisma.$transaction(async (tx) => {
+		const patientTx = await tx.patient.create({
+			data: {
+				userId: data.user.id,
+				name,
+				email
+			}
+		})
+		return patientTx
+	})
+	return { ...data, patient }
 }
 
-const loginUser = async (payload: User) => {
+const loginUser = async (payload: User & { password: string }) => {
 	const { email, password } = payload
 	const data = await auth.api.signInEmail({
 		body: {
