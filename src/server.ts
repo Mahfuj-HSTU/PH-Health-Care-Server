@@ -1,5 +1,6 @@
 import app from './app'
-const port = process.env.PORT || 5000
+import { envVariables } from './config/env'
+const port = envVariables.PORT || 5000
 
 // Start the server
 app.listen(port, () => {
