@@ -16,7 +16,7 @@ const getAllDoctors = catchAsync(async (req: Request, res: Response) => {
 })
 
 const getDoctorById = catchAsync(async (req: Request, res: Response) => {
-	const result = await DoctorService.getDoctorById(req.params.id)
+	const result = await DoctorService.getDoctorById(req.params.id as string)
 
 	sendResponse(res, {
 		httpStatuscode: status.OK,
@@ -26,12 +26,33 @@ const getDoctorById = catchAsync(async (req: Request, res: Response) => {
 	})
 })
 
-//const updateDoctor = catchAsync(
-//const deleteDoctor = catchAsync(
+const updateDoctor = catchAsync(async (req: Request, res: Response) => {
+	const result = await DoctorService.updateDoctor(
+		req.params.id as string,
+		req.body
+	)
+
+	sendResponse(res, {
+		httpStatuscode: status.OK,
+		success: true,
+		message: 'Doctor updated successfully',
+		data: result
+	})
+})
+const deleteDoctor = catchAsync(async (req: Request, res: Response) => {
+	const result = await DoctorService.deleteDoctor(req.params.id as string)
+
+	sendResponse(res, {
+		httpStatuscode: status.OK,
+		success: true,
+		message: 'Doctor deleted successfully',
+		data: result
+	})
+})
 
 export const DoctorController = {
 	getAllDoctors,
-	getDoctorById
-	// updateDoctor,
-	// deleteDoctor,
+	getDoctorById,
+	updateDoctor,
+	deleteDoctor
 }
