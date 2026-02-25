@@ -1,6 +1,9 @@
 import type { NextFunction, Request, Response } from 'express'
 import { error } from 'node:console'
 import { Prisma } from '../../../generated/prisma/client'
+import z from 'zod'
+import { TErrorSources } from '../interfaces/error.interfaces'
+import { handleZodError } from '../errorHelpers/handleZodError'
 
 function globalErrorHandler(
 	err: any,
@@ -11,6 +14,20 @@ function globalErrorHandler(
 	let statusCode = 500
 	let errormessage = 'Internal Server Error'
 	let errorDetails = err
+	const errorSource: TErrorSources[] = []
+
+	if (err instanceof z.ZodError) {
+		const simplifiedError = handleZodError(err)
+		statusCode = simplifiedError.statusCode
+		errormessage = simplifiedError.message
+		// err.issues.forEach((issue: any) => {
+		// 	errorSource.push({
+		// 		path: issue.path.join('.'),
+		// 		message: issue.message
+		// 	})
+		// })
+		errorSource.push(...simplifiedError.errorSources)
+	}
 
 	// *prisma validation error
 	if (err instanceof Prisma.PrismaClientValidationError) {
@@ -54,6 +71,7 @@ function globalErrorHandler(
 	res.json({
 		success: false,
 		message: errormessage,
+		stack: errorSource,
 		error: errorDetails.message
 	})
 }
